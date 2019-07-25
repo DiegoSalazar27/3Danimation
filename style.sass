@@ -1,0 +1,88 @@
+body
+  margin: 0
+  box-sizing: border-box
+  background-color: black
+
+$bar-height: 100px
+$bar-widht: 20px
+$i: 0
+$front: cyan
+$t: 1.75s
+
+
+.bar-container
+  transform-style: preserve-3d
+  height: 100vh
+  width: 100%
+  transform: rotatex(-25deg)
+  perspective: 7500px
+  .positioner
+    position: absolute
+    top: 50%
+    left: 50%
+    transform-style: preserve-3d
+    .bar
+      transform-style: preserve-3d
+      position: absolute
+      top: 50%
+      bottom: 50%
+      left: 50%
+      right: 50%
+      width: $bar-widht
+      height: $bar-widht
+      animation: $t rotate infinite
+      .face
+          transform-style: preserve-3d
+          position: absolute
+          background-color: gray
+          // backface-visibility: hidden
+
+.top
+  width: $bar-widht
+  height: $bar-height
+  top: -$bar-height
+  transform-origin: bottom center
+  transform: rotatex(90deg) translateY($bar-height/2)
+
+.bottom
+  width: $bar-widht
+  height: $bar-height
+  bottom: -$bar-height
+  transform-origin: top center
+  transform: rotatex(-90deg) translateY(-$bar-height/2)
+
+.left
+  height: $bar-widht
+  width: $bar-height
+  left: -$bar-height
+  transform-origin: right center
+  transform: rotatey(-90deg) translateX($bar-height/2)
+
+.right
+  height: $bar-widht
+  width: $bar-height
+  right: -$bar-height
+  transform-origin: left center
+  transform: rotatey(90deg) translateX(-$bar-height/2)
+
+.back
+  width: $bar-widht
+  height: $bar-widht
+  background-color: $front !important
+  transform: translateZ(-$bar-height/2)
+
+.front
+  width: $bar-widht
+  height: $bar-widht
+  background-color: $front !important
+  transform: translateZ($bar-height/2)
+
+@for $i from 0 to 24
+  .positioner:nth-child(n + #{$i + 1})
+    transform: rotatey(15deg * $i) translatez(250px) rotateX(70deg)
+    .bar
+      animation-delay: (-$i * $t / 24)
+
+@keyframes rotate
+  75%, 100%
+   transform: rotatex(-.5turn)
